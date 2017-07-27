@@ -75,6 +75,7 @@ function add_group() {
 function remove_group(n) {
   $('#grouptab' + n).remove();
   $('#group' + n).remove();
+  $('ul.tabs').children().removeAttr('style');
   $('ul.tabs').tabs();
   delete groups[n];
   if (Object.keys(groups).length) {
@@ -96,7 +97,7 @@ function submit_page_two() {
         return;
       }
       var num_input_float = parseFloat(num_input.val());
-      if (!num_input_float) {
+      if (isNaN(num_input_float)) {
         Materialize.toast("Only numerical values allowed", 4000, "toast-error");
         fatal_error = true;
         return false;
