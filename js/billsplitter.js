@@ -88,15 +88,29 @@ function submit_page_two() {
       Materialize.toast("You need to create at least one group", 4000, "toast-error");
       return false;
   }
+  var fatal_error = false;
   $.each(groups, function(groupnum, groupamount) {
     $.each(names, function(j, name) {
       var num_input = $("#grouptab" + groupnum + " #namelist #" + j + " input[type='number']");
       if (num_input.prop("disabled")) {
         return;
       }
-      groupamount[name] = parseFloat(num_input.val());
+      var num_input_float = parseFloat(num_input.val());
+      if (!num_input_float) {
+        Materialize.toast("Only numerical values allowed", 4000, "toast-error");
+        fatal_error = true;
+        return false;
+      }
+      groupamount[name] = num_input_float;
     });
+    if (fatal_error) {
+      return false;
+    }
   });
+  if (fatal_error) {
+    return false;
+  }
+
   var transactions = calc_transactions(groups);
   $("#page-results table#transactions tbody").empty();
   $.each(transactions, function(sender, receivers) {
