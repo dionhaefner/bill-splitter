@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <link rel="stylesheet" href="css/billsplitter.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  <title>The Bill Splitter</title>
+
+</head>
+<body>
+
+  <div class="main-container container z-depth-2">
+    <h1>Let's split those bills!</h1>
+    <hr />
+
+    <!-- First page -->
+    <div id="page-1">
+      <h2>Step 1</h2>
+
+      <p>Please tell me your names...</p>
+      <div class="row">
+        <div class="col s12">
+          <div class="row">
+            <div class="input-field col s6">
+              <i class="material-icons prefix">mode_edit</i>
+              <textarea id="names" class="materialize-textarea"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row buttonrow">
+        <a class="waves-effect btn right" onclick="submit_page_one()">Next</a>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- Second page -->
+    <div id="page-2">
+      <h2>Step 2</h2>
+
+      <p>Create some groups <a class="tooltipped" data-delay="25" data-tooltip="Everyone belonging to a group shares everyone's expenses within that group"><i class="material-icons teal-text text-lighten-2">info</i></a></p>
+      <div class="row">
+        <div class="col s12">
+          <a class="waves-effect btn-floating" onclick="add_group()"><i class="material-icons">add</i></a>
+          <ul class="tabs" id="grouplist">
+          </ul>
+        </div>
+      </div>
+
+      <div id="grouptabs">
+      </div>
+
+      <div class="row buttonrow">
+        <a class="waves-effect btn left" onclick="show_page_one()">Back</a> <a class="waves-effect btn right" onclick="show_results()">Next</a>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <!-- Results -->
+    <div id="page-results">
+      <h2>Done!</h2>
+
+      <p>Please make the following transactions<p>
+      <table id="transactions">
+        <col align="left">
+        <col align="left">
+        <col align="right">
+        <thead>
+          <tr>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+      </table>
+      <div class="row buttonrow">
+        <a class="waves-effect btn left" onclick="show_page_two()">Back</a>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+  </div>
+
+
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 center-align">
+          <p class="white-text">&copy; 2017 by <a href="https://github.com/dionhaefner">Dion Häfner</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="js/billsplitter.js"></script>
+</body>
+</html>

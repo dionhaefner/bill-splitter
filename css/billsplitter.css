@@ -1,0 +1,99 @@
+html,body{ height:100%; }
+body{
+  background-image: url("../bg.jpg");
+  background-size: cover;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#page-2, #page-results {
+  display: none;
+}
+
+footer.page-footer {
+  background: none;
+}
+
+footer.page-footer p {
+  background-color: rgba(0,0,0,0.6);
+}
+
+.main-container {
+    position: relative;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 25px 50px;
+    margin: 100px auto;
+    max-width: 800px;
+    flex: 1 0 auto;
+}
+
+.main-container h1 {
+    font-size: 48px;
+}
+
+.main-container h2 {
+    font-size: 24px;
+}
+
+.check-button {
+    margin: 4px;
+    background-color: #EFEFEF;
+    border-radius: 4px;
+    border: none;
+    overflow: hidden;
+}
+
+.check-button:hover {
+    background-color: #4db6ac;
+}
+
+.check-button label {
+    width:4.0em;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.check-button label span {
+    text-align:center;
+    padding: 0.5rem 1rem;
+    display:block;
+}
+
+.check-button label input {
+    position:absolute;
+    top:-20px;
+}
+
+.check-button input:checked + span {
+    background-color:#26a69a;
+    color:#fff;
+}
+
+#namelist input[type=number] {
+    width: 150px;
+    text-align:right;
+}
+
+.toast-error {
+    background-color: rgba(232,44,12,.8);
+    top: auto !important;
+    right: auto !important;
+    bottom: 10% !important;
+    left:7% !important;
+}
+
+/*textarea.auto-expand{
+  display:block;
+  box-sizing: padding-box;
+  overflow:hidden;
+
+  padding:10px;
+  width:250px;
+  font-size:14px;
+  margin:50px auto;
+  border-radius:6px;
+  box-shadow:2px 2px 8px rgba(0,0,0,.3);
+  border:0;
+}*/
