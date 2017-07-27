@@ -186,10 +186,10 @@ function calc_transactions(groups) {
       if (budget <= 0) {
         return false;
       }
-      if (balance <= 0) {
+      var transaction = round_to_cents(Math.min(budget, balance));
+      if (transaction <= 0) {
         return;
       }
-      var transaction = round_to_cents(Math.min(budget, balance));
       transactions[sender][receiver] = transaction;
       receivers[receiver] -= transaction;
       budget -= transaction;
