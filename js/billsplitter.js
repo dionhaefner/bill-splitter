@@ -1,16 +1,15 @@
 // Frontend
 $(document).ready(function() {
+   show_page_one();
    $('select').material_select();
    $('ul.tabs').tabs();
-   Materialize.updateTextFields();
  });
 
-var groups = [];
+var groups = {};
 var groupnum = 1;
 var names;
 
  function show_page_one() {
-   Materialize.updateTextFields();
    $("#page-1").show();
    $("#page-2").hide();
    $("#page-results").hide();
@@ -18,18 +17,18 @@ var names;
 
  function fill_namelists() {
    $('ul#namelist').empty();
-   $.each(groups, function(i, groupname) {
-     fill_namelist(groupname);
+   $.each(groups, function(n) {
+     fill_namelist("grouptab" + n);
    });
  }
 
  function fill_namelist(groupname) {
    $.each(names, function(i, name){
      $('#' + groupname + ' ul#namelist').append(
-       '<li id="' + name + '" class="collection-item"><div class="input-field inline right"><input type="number" step="0.01" min="0" value="0" class="validate" disabled></div><div class="check-button waves-effect z-depth-1 left"><label><input type="checkbox" value="1"><span>' + name + '</span></label></div><div class="clearfix"></div></li>'
+       '<li id="' + i + '" class="collection-item"><div class="check-button waves-effect z-depth-1 left"><label><input type="checkbox" value="1"><span>' + name + '</span></label></div><div class="input-field right"><input type="number" step="0.01" min="0" value="0" class="validate" disabled></div><div class="clearfix"></div></li>'
      );
-     $("#" + groupname + " #" + name + " input:checkbox").click(function() {
-       $("#" + groupname + " #" + name + " input[type='number']").attr("disabled", !this.checked);
+     $("#" + groupname + " #" + i + " input:checkbox").click(function() {
+       $("#" + groupname + " #" + i + " input[type='number']").attr("disabled", !this.checked);
      });
     });
  }
@@ -59,41 +58,47 @@ function show_page_two() {
 }
 
 function add_group() {
-  var n = $("ul#grouplist li").length - 1;
+  var n = groupnum;
   $("ul#grouplist").append(
-    '<li class="tab col s3"><a href="#group' + n + '">Group ' + n + '</a></li>'
+    '<li id="group' + n + '" class="tab"><a href="#grouptab' + n + '">Group ' + n + '</a></li>'
   );
   $("div#grouptabs").append(
-    '<div id="group' + n + '" class="col s12"><ul id="namelist" class="collection"></ul><a class="waves-effect waves-light btn-floating" onclick="remove_group(' + n + ')"><i class="material-icons">remove</i></a></div>'
+    '<div id="grouptab' + n + '" class="col s12"><ul id="namelist" class="collection"></ul><a class="waves-effect waves-light btn red" onclick="remove_group(' + n + ')"><i class="material-icons left">delete</i> Delete Group</a></div>'
   );
-  fill_namelist('group' + n);
+  fill_namelist('grouptab' + n);
   $('ul.tabs').children().removeAttr('style');
-  $('ul.tabs').tabs().tabs('select_tab', 'group' + n);
-  groups.push({});
+  $('ul.tabs').tabs().tabs('select_tab', 'grouptab' + n);
+  groups[n] = {};
+  groupnum += 1;
 }
 
 function remove_group(n) {
+  $('#grouptab' + n).remove();
   $('#group' + n).remove();
   $('ul.tabs').tabs();
-  groups.splice(n, 1);
+  delete groups[n];
+  if (Object.keys(groups).length) {
+    $('ul.tabs').tabs('select_tab', 'grouptab' + Object.keys(groups)[0]);
+  }
 }
 
-function show_results() {
-  if (!groups.length) {
+function submit_page_two() {
+  console.log(Object.keys(groups));
+  if (!Object.keys(groups).length) {
       Materialize.toast("You need to create at least one group", 4000, "toast-error");
       return false;
   }
   $.each(groups, function(groupnum, groupamount) {
     $.each(names, function(j, name) {
-      var num_input = $("#group" + groupnum + " #namelist #" + name + " input[type='number']");
+      var num_input = $("#grouptab" + groupnum + " #namelist #" + j + " input[type='number']");
       if (num_input.prop("disabled")) {
         return;
       }
       groupamount[name] = parseFloat(num_input.val());
     });
-    console.log(groups[groupnum]);
   });
-  var transactions = calc_transactions();
+  var transactions = calc_transactions(groups);
+  $("#page-results table#transactions tbody").empty();
   $.each(transactions, function(sender, receivers) {
     console.log(sender);
     console.log(receivers);
@@ -103,6 +108,10 @@ function show_results() {
       );
     });
   });
+  show_results();
+}
+
+function show_results() {
   $("#page-1").hide();
   $("#page-2").hide();
   $("#page-results").show();
@@ -128,7 +137,7 @@ function subtract_mean(group) {
   return diff;
 }
 
-function calc_transactions() {
+function calc_transactions(groups) {
   var diff = []
   $.each(groups, function(i, group) {
     diff.push(subtract_mean(group));
