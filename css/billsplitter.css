@@ -30,7 +30,7 @@ footer.page-footer {
     border-radius: 20px;
     padding: 25px 35px;
     margin: 100px auto;
-    max-width: 800px;
+    max-width: 900px;
 }
 
 .main-container h1 {
@@ -42,7 +42,8 @@ footer.page-footer {
 }
 
 .group-container {
-  margin: 50px 0;
+  margin-top: 30px;
+  margin-bottom: 60px;
   padding: 0px;
 }
 
@@ -80,11 +81,19 @@ footer.page-footer {
     color:#fff;
 }
 
-#namelist .input-field {
+#namelist .namelist-item {
+    padding: 0;
+    margin: 10px;
+    min-width: 200px;
+    display: inline-block;
+}
+
+#namelist .namelist-item .input-field {
     margin-top: 0;
 }
-#namelist input[type=number] {
-    max-width: 150px;
+
+#namelist .namelist-item input[type=number] {
+    max-width: 100px;
     margin: 0;
     text-align:right;
 }

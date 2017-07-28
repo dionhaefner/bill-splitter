@@ -3,6 +3,7 @@ $(document).ready(function() {
    show_page_one();
    $('select').material_select();
    $('ul.tabs').tabs();
+   $(document).on('click','input[type=number]',function(){ this.select(); });
  });
 
 var groups = {};
@@ -16,7 +17,7 @@ var names;
  }
 
  function fill_namelists() {
-   $('ul#namelist').empty();
+   $('div#namelist').empty();
    $.each(groups, function(n) {
      fill_namelist("grouptab" + n);
    });
@@ -24,8 +25,8 @@ var names;
 
  function fill_namelist(groupname) {
    $.each(names, function(i, name){
-     $('#' + groupname + ' ul#namelist').append(
-       '<li id="' + i + '" class="collection-item"><div class="check-button waves-effect z-depth-1 left"><label><input type="checkbox" value="1"><span>' + name + '</span></label></div><div class="input-field right"><input type="number" step="0.01" min="0" value="0" class="validate" disabled></div><div class="clearfix"></div></li>'
+     $('#' + groupname + ' div#namelist').append(
+       '<div id="' + i + '" class="namelist-item col s6 m3 l3 xl2"><div class="check-button waves-effect z-depth-1 left"><label><input type="checkbox" value="1"><span>' + name + '</span></label></div><div class="input-field right"><input type="number" step="0.01" min="0" value="0" class="validate" disabled></div><div class="clearfix"></div></div>'
      );
      $("#" + groupname + " #" + i + " input:checkbox").click(function() {
        $("#" + groupname + " #" + i + " input[type='number']").attr("disabled", !this.checked);
@@ -63,7 +64,7 @@ function add_group() {
     '<li id="group' + n + '" class="tab"><a href="#grouptab' + n + '">Group ' + n + '</a></li>'
   );
   $("div#grouptabs").append(
-    '<div id="grouptab' + n + '" class="col s12"><ul id="namelist" class="collection"></ul><a class="waves-effect waves-light btn red" onclick="remove_group(' + n + ')"><i class="material-icons left">delete</i> Delete Group</a></div>'
+    '<div id="grouptab' + n + '" class="col s12"><div id="namelist" class="row"></div><a class="waves-effect waves-light btn red" onclick="remove_group(' + n + ')"><i class="material-icons left">delete</i> Delete Group</a></div>'
   );
   fill_namelist('grouptab' + n);
   $('ul.tabs').children().removeAttr('style');
