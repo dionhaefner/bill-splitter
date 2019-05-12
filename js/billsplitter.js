@@ -85,13 +85,13 @@ function remove_group(n) {
 }
 
 function submit_page_two() {
-  console.log(Object.keys(groups));
   if (!Object.keys(groups).length) {
       Materialize.toast("You need to create at least one group", 4000, "toast-error");
       return false;
   }
   var fatal_error = false;
-  $.each(groups, function(groupnum, groupamount) {
+  $.each(groups, function(groupnum) {
+    groups[groupnum] = {};
     $.each(names, function(j, name) {
       var num_input = $("#grouptab" + groupnum + " #namelist #" + j + " input[type='number']");
       if (num_input.prop("disabled")) {
@@ -103,7 +103,7 @@ function submit_page_two() {
         fatal_error = true;
         return false;
       }
-      groupamount[name] = num_input_float;
+      groups[groupnum][name] = num_input_float;
     });
     if (fatal_error) {
       return false;
@@ -116,8 +116,6 @@ function submit_page_two() {
   var transactions = calc_transactions(groups);
   $("#page-results table#transactions tbody").empty();
   $.each(transactions, function(sender, receivers) {
-    console.log(sender);
-    console.log(receivers);
     $.each(receivers, function(receiver, amount) {
       $("#page-results table#transactions tbody").append(
         "<tr> <td>" + sender + "</td> <td>" + receiver + "</td> <td>" + amount + "</td> </tr>"
